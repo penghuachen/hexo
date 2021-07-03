@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;penghuachen.github.io&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Mist&quot;,&quot;version&quot;:&quot;8.4.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;always&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:true,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:true,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜尋...&quot;,&quot;empty&quot;:&quot;我們無法找到任何有關 ${query} 的搜索結果&quot;,&quot;hits_time&quot;:&quot;${hits} 找到 ${time} 個結果&quot;,&quot;hits&quot;:&quot;找到 ${hits} 個結果&quot;},&quot;path&quot;:&quot;&#x2F;search.xml&quot;,&quot;localsearch&quot;:{&quot;enable&quot;:true,&quot;trigger&quot;:&quot;auto&quot;,&quot;top_n_per_article&quot;:1,&quot;unescape&quot;:false,&quot;preload&quot;:false}}</script>
+<meta name="description" content="Outline:  使用Javascript操作DOM(Document Object Model)  關於DOM的樣子 選取DOM元素  特定的id屬性  document.getElementById(‘id’)   表單元素的name屬性  document.getElementByName(‘name’)   透過取得html tag名稱操作  document.getElementByT">
+<meta property="og:type" content="article">
+<meta property="og:title" content="連續記錄挑戰Day51-使用Javascript操作DOM(Document Object Model) part1">
+<meta property="og:url" content="https://penghuachen.github.io/2019/07/17/%E9%80%A3%E7%BA%8C%E8%A8%98%E9%8C%84%E6%8C%91%E6%88%B0Day51-%E4%BD%BF%E7%94%A8Javascript%E6%93%8D%E4%BD%9CDOM-Document-Object-Model-part1/index.html">
+<meta property="og:site_name" content="PH 前端學習修煉記錄">
+<meta property="og:description" content="Outline:  使用Javascript操作DOM(Document Object Model)  關於DOM的樣子 選取DOM元素  特定的id屬性  document.getElementById(‘id’)   表單元素的name屬性  document.getElementByName(‘name’)   透過取得html tag名稱操作  document.getElementByT">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://i.imgur.com/hpIdqUI.png">
+<meta property="article:published_time" content="2019-07-17T13:52:13.000Z">
+<meta property="article:modified_time" content="2021-05-22T08:59:31.095Z">
+<meta property="article:author" content="Penghua Chen">
+<meta property="article:tag" content="Javascript">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/hpIdqUI.png">
+
+
+<link rel="canonical" href="https://penghuachen.github.io/2019/07/17/%E9%80%A3%E7%BA%8C%E8%A8%98%E9%8C%84%E6%8C%91%E6%88%B0Day51-%E4%BD%BF%E7%94%A8Javascript%E6%93%8D%E4%BD%9CDOM-Document-Object-Model-part1/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-TW&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;penghuachen.github.io&#x2F;2019&#x2F;07&#x2F;17&#x2F;%E9%80%A3%E7%BA%8C%E8%A8%98%E9%8C%84%E6%8C%91%E6%88%B0Day51-%E4%BD%BF%E7%94%A8Javascript%E6%93%8D%E4%BD%9CDOM-Document-Object-Model-part1&#x2F;&quot;,&quot;path&quot;:&quot;2019&#x2F;07&#x2F;17&#x2F;連續記錄挑戰Day51-使用Javascript操作DOM-Document-Object-Model-part1&#x2F;&quot;,&quot;title&quot;:&quot;連續記錄挑戰Day51-使用Javascript操作DOM(Document Object Model) part1&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>連續記錄挑戰Day51-使用Javascript操作DOM(Document Object Model) part1 | PH 前端學習修煉記錄</title><script src="/js/config.js"></script>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-140787597-1"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{&quot;tracking_id&quot;:&quot;UA-140787597-1&quot;,&quot;only_pageview&quot;:false}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">PH 前端學習修煉記錄</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Javascript%E6%93%8D%E4%BD%9CDOM-Document-Object-Model-part1"><span class="nav-number">1.</span> <span class="nav-text">使用Javascript操作DOM(Document Object Model) part1</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%9C%E6%96%BCDOM%E7%9A%84%E6%A8%A3%E5%AD%90"><span class="nav-number">1.1.</span> <span class="nav-text">關於DOM的樣子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%81%B8%E5%8F%96DOM%E5%85%83%E7%B4%A0"><span class="nav-number">1.2.</span> <span class="nav-text">選取DOM元素</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E5%AE%9A%E7%9A%84id%E5%B1%AC%E6%80%A7"><span class="nav-number">1.2.1.</span> <span class="nav-text">特定的id屬性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A8%E5%96%AE%E5%85%83%E7%B4%A0%E7%9A%84name%E5%B1%AC%E6%80%A7"><span class="nav-number">1.2.2.</span> <span class="nav-text">表單元素的name屬性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%8F%E9%81%8E%E5%8F%96%E5%BE%97html-tag%E5%90%8D%E7%A8%B1%E6%93%8D%E4%BD%9C"><span class="nav-number">1.2.3.</span> <span class="nav-text">透過取得html tag名稱操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#class%E5%90%8D%E7%A8%B1"><span class="nav-number">1.2.4.</span> <span class="nav-text">class名稱</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%90%AD%E9%85%8Dcss-selector%E9%81%B8%E6%93%87%E5%99%A8"><span class="nav-number">1.2.5.</span> <span class="nav-text">搭配css selector選擇器</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Penghua Chen"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Penghua Chen</p>
+  <div class="site-description" itemprop="description">目前進駐在台南的好想工作室。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">109</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/penghuachen" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;penghuachen" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+  <div class="links-of-recent-posts motion-element">
+    <div class="links-of-recent-posts-title">
+      <i class="fa fa-history fa-" aria-hidden="true"></i>
+      近期文章
+    </div>
+    <ul class="links-of-recent-posts-list">
+        <li class="links-of-recent-posts-item">
+          <i class="fas fa-bookmark"></i>
+          <a href="/2021/05/22/i%E9%96%B1%E8%AE%80%E7%B3%BB%E5%88%97-%E7%84%A1%E9%99%90%E8%B3%BD%E5%B1%80/" title="2021&#x2F;05&#x2F;22&#x2F;i閱讀系列-無限賽局&#x2F;">i閱讀系列-無限賽局</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <i class="fas fa-bookmark"></i>
+          <a href="/2021/05/09/%E6%8A%8A%E7%8E%A9-vue-leaflet/" title="2021&#x2F;05&#x2F;09&#x2F;把玩-vue-leaflet&#x2F;">把玩 vue-leaflet</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <i class="fas fa-bookmark"></i>
+          <a href="/2021/05/05/%E6%8A%8A%E7%8E%A9-Leaflet/" title="2021&#x2F;05&#x2F;05&#x2F;把玩-Leaflet&#x2F;">把玩 Leaflet</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <i class="fas fa-bookmark"></i>
+          <a href="/2021/05/01/%E6%8A%8A%E7%8E%A9-vue-chartjs/" title="2021&#x2F;05&#x2F;01&#x2F;把玩-vue-chartjs&#x2F;">把玩 vue-chartjs</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <i class="fas fa-bookmark"></i>
+          <a href="/2021/04/27/%E6%95%B4%E7%90%86-Vue2-%E4%B8%AD%E5%9C%A8%E5%85%83%E4%BB%B6%E8%A3%A1%E9%81%94%E5%88%B0%E9%9B%99%E5%90%91%E7%B6%81%E5%AE%9A%E7%9A%84%E5%B9%BE%E7%A8%AE%E6%96%B9%E5%BC%8F/" title="2021&#x2F;04&#x2F;27&#x2F;整理-Vue2-中在元件裡達到雙向綁定的幾種方式&#x2F;">整理 Vue2 中在元件裡達到雙向綁定的幾種方式</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <i class="fas fa-bookmark"></i>
+          <a href="/2021/02/27/Free-Cell-%E6%96%B0%E6%8E%A5%E9%BE%8D/" title="2021&#x2F;02&#x2F;27&#x2F;Free-Cell-新接龍&#x2F;">Free Cell 新接龍</a>
+        </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/penghuachen" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://penghuachen.github.io/2019/07/17/%E9%80%A3%E7%BA%8C%E8%A8%98%E9%8C%84%E6%8C%91%E6%88%B0Day51-%E4%BD%BF%E7%94%A8Javascript%E6%93%8D%E4%BD%9CDOM-Document-Object-Model-part1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Penghua Chen">
+      <meta itemprop="description" content="目前進駐在台南的好想工作室。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="PH 前端學習修煉記錄">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          連續記錄挑戰Day51-使用Javascript操作DOM(Document Object Model) part1
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2019-07-17 21:52:13" itemprop="dateCreated datePublished" datetime="2019-07-17T21:52:13+08:00">2019-07-17</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新於</span>
+        <time title="修改時間：2021-05-22 16:59:31" itemprop="dateModified" datetime="2021-05-22T16:59:31+08:00">2021-05-22</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Javascript/" itemprop="url" rel="index"><span itemprop="name">Javascript</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-item" title="文章字數">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">文章字數：</span>
+      <span>3.7k</span>
+    </span>
+    <span class="post-meta-item" title="所需閱讀時間">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">所需閱讀時間 &asymp;</span>
+      <span>3 分鐘</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>Outline:</p>
+<ul>
+<li>使用Javascript操作DOM(Document Object Model)
+<ul>
+<li>關於DOM的樣子</li>
+<li>選取DOM元素
+<ul>
+<li>特定的id屬性
+<ul>
+<li>document.getElementById(‘id’)</li>
+</ul>
+</li>
+<li>表單元素的name屬性
+<ul>
+<li>document.getElementByName(‘name’)</li>
+</ul>
+</li>
+<li>透過取得html tag名稱操作
+<ul>
+<li>document.getElementByTagName</li>
+</ul>
+</li>
+<li>class名稱
+<ul>
+<li>document.getElementByClassName</li>
+</ul>
+</li>
+<li>搭配css selector選擇器
+<ul>
+<li>document.querySelector(’#id / class / html tag’)</li>
+<li>document.querySelectorAll(‘class’)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<span id="more"></span>
+<h1 id="使用Javascript操作DOM-Document-Object-Model-part1"><a class="header-anchor" href="#使用Javascript操作DOM-Document-Object-Model-part1"></a>使用Javascript操作DOM(Document Object Model) part1</h1>
+<p>DOM是W3C制訂的一個規範，是獨立於平台和語言的標準。並提供了一組DOM的API用於操作DOM使用，讓我們可以修改結構、樣式與內容</p>
+<h2 id="關於DOM的樣子"><a class="header-anchor" href="#關於DOM的樣子"></a>關於DOM的樣子</h2>
+<p>所有我們在透過html語言撰寫的程式碼的都會被轉為類似樹狀的結構圖，如下</p>
+<p>Ex:簡單的html架構與樹狀圖</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">    &lt;head&gt;</span><br><span class="line">        &lt;title&gt;Doucment&lt;/title&gt;</span><br><span class="line">    &lt;/head&gt;</span><br><span class="line">    &lt;body&gt;</span><br><span class="line">        &lt;h1&gt;An Document&lt;/h1&gt;</span><br><span class="line">        &lt;p&gt;This is a &lt;b&gt;simple&lt;/b&gt; </span><br><span class="line">.&lt;/p&gt;</span><br><span class="line">    &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.imgur.com/hpIdqUI.png" alt=""></p>
+<h2 id="選取DOM元素"><a class="header-anchor" href="#選取DOM元素"></a>選取DOM元素</h2>
+<p>有幾種方式可以用於選取元素(element)</p>
+<ul>
+<li>特定的id屬性</li>
+<li>表單元素的name屬性</li>
+<li>透過取得html tag名稱操作</li>
+<li>class名稱</li>
+<li>搭配css selector選擇器</li>
+</ul>
+<h3 id="特定的id屬性"><a class="header-anchor" href="#特定的id屬性"></a>特定的id屬性</h3>
+<p>在html tag中我們可以透過 <strong>id</strong> 對該元素設定樣式，而在js中我們也可以透過取得該元素的id對那個元素作動態的操作</p>
+<ul>
+<li>語法：document.getElementById(‘id’)</li>
+</ul>
+<p>Ex: document.getElementById的使用(使用編輯器編譯並開起網頁查看)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;h1 id=&quot;title&quot;&gt;This is a title.&lt;/h1&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">  </span><br><span class="line"><span class="comment">//透過id操作 h1 tag</span></span><br><span class="line"><span class="comment">//為了更直觀呈現，使用了監聽事件的語法addEventListener</span></span><br><span class="line"><span class="comment">//點擊文字查看效果</span></span><br><span class="line"><span class="keyword">let</span> h1Title = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;title&#x27;</span>);</span><br><span class="line">h1Title.addEventListener(<span class="string">&#x27;click&#x27;</span>, hoverTitle, <span class="literal">false</span>);</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">hoverTitle</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(e);</span><br><span class="line">  h1Title.textContent = <span class="string">&#x27; This is a new title.&#x27;</span>;</span><br><span class="line">&#125;  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="表單元素的name屬性"><a class="header-anchor" href="#表單元素的name屬性"></a>表單元素的name屬性</h3>
+<p>表單元素都有一個name的屬性，所以我們可以透過下列語法操作表單元素</p>
+<ul>
+<li>document.getElementByName(‘name’)</li>
+<li>這個語法會回傳一個NodeList的物件(也就是array-like物件)，所以可以透過length這個特性進行一些操作</li>
+</ul>
+<p>Ex1: document.getElementsByName的使用(使用編輯器編譯並開起網頁查看)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;form action=&quot;#&quot;&gt;</span><br><span class="line">    &lt;input type=&quot;text&quot; name=&quot;usertext&quot;&gt;</span><br><span class="line">    &lt;input type=&quot;text&quot; name=&quot;usertext&quot;&gt;</span><br><span class="line">&lt;/form&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">  </span><br><span class="line"><span class="comment">//透過name屬性操作 表單元素</span></span><br><span class="line"><span class="comment">//會取得NodeList物件，透過length特性改變輸入時的文字顏色為紅色</span></span><br><span class="line"><span class="keyword">let</span> inputUsetText = <span class="built_in">document</span>.getElementsByName(<span class="string">&#x27;usertext&#x27;</span>);</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; inputUsetText.length; i++) &#123;</span><br><span class="line">  inputUsetText[i].style.color = <span class="string">&#x27;#f00&#x27;</span>;</span><br><span class="line">&#125;  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="透過取得html-tag名稱操作"><a class="header-anchor" href="#透過取得html-tag名稱操作"></a>透過取得html tag名稱操作</h3>
+<ul>
+<li>document.getElementByTagName</li>
+<li>這個語法會回傳一個NodeList的物件(也就是array-like物件)，所以可以透過length這個特性進行一些操作</li>
+</ul>
+<p>Ex2: document.getElementsByTagName的使用(使用編輯器編譯並開起網頁查看)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;h2&gt;This is a main title.&lt;/h2&gt;</span><br><span class="line">&lt;h2&gt;This is a sub title.&lt;/h2&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//透過選取 h2 tag操作h2</span></span><br><span class="line"><span class="comment">//因為會回傳NodeList物件，所以可以透過length的特性將文字顏色改變為紅色</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="keyword">let</span> h2Title = <span class="built_in">document</span>.getElementsByTagName(<span class="string">&#x27;h2&#x27;</span>);</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; h2Title.length; i++) &#123;</span><br><span class="line">    h2Title[i].style.color = <span class="string">&quot;#f00&quot;</span>;</span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure>
+<h3 id="class名稱"><a class="header-anchor" href="#class名稱"></a>class名稱</h3>
+<ul>
+<li>document.getElementByClassName</li>
+<li>這個語法會回傳一個NodeList的物件(也就是array-like物件)，所以可以透過length這個特性進行一些操作</li>
+</ul>
+<p>Ex3: document.getElementsByClassName的使用(使用編輯器編譯並開起網頁查看)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;h2 class=&quot;title&quot;&gt;This is a main title.&lt;/h2&gt;</span><br><span class="line">&lt;h2 class=&quot;title&quot;&gt;This is a sub title.&lt;/h2&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//透過選取 class名稱 操作h2</span></span><br><span class="line"><span class="comment">//因為會回傳NodeList物件，所以可以透過length的特性將文字顏色改變為紅色</span></span><br><span class="line"><span class="keyword">let</span> h2Title = <span class="built_in">document</span>.getElementsByClassName(<span class="string">&#x27;title&#x27;</span>);</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; h2Title.length; i++) &#123;</span><br><span class="line">    h2Title[i].style.color = <span class="string">&quot;#f00&quot;</span>;</span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure>
+<h3 id="搭配css-selector選擇器"><a class="header-anchor" href="#搭配css-selector選擇器"></a>搭配css selector選擇器</h3>
+<ul>
+<li>document.querySelector(‘#id / class / html tag’)
+<ul>
+<li>可以透過id、class或者html tag操作元素</li>
+<li>如果有多個相同名稱的元素，但只會回傳第一個元素的結果</li>
+</ul>
+</li>
+<li>document.querySelectorAll(‘class’)
+<ul>
+<li>可以用於多個相同名稱的元素</li>
+<li>這個語法會回傳一個NodeList的物件(也就是array-like物件)，所以可以透過length這個特性進行一些操作</li>
+</ul>
+</li>
+</ul>
+<p>Ex4: document.querySelector(‘#id / class / html tag’)的使用(使用編輯器編譯並開起網頁查看)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;h2 class=&quot;title&quot;&gt;This is a main title.&lt;/h2&gt;</span><br><span class="line">&lt;h2 class=&quot;title&quot;&gt;This is a sub title.&lt;/h2&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//透過選取 class名稱 操作h2</span></span><br><span class="line"><span class="comment">//因為會回傳NodeList物件，所以可以透過length的特性將文字顏色改變為紅色</span></span><br><span class="line"><span class="keyword">let</span> h2Title = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;.title&#x27;</span>);</span><br><span class="line">h2Title.style.color = <span class="string">&quot;#f00&quot;</span>;  </span><br></pre></td></tr></table></figure>
+<p>Ex5: document.querySelectorAll( ’ class / html tag’)的使用(使用編輯器編譯並開起網頁查看)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;h2 class=&quot;title&quot;&gt;This is a main title.&lt;/h2&gt;</span><br><span class="line">&lt;h2 class=&quot;title&quot;&gt;This is a sub title.&lt;/h2&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//透過選取 class名稱 操作h2</span></span><br><span class="line"><span class="comment">//因為會回傳NodeList物件，所以可以透過length的特性將文字顏色改變為紅色</span></span><br><span class="line"><span class="keyword">let</span> h2Title = <span class="built_in">document</span>.querySelectorAll(<span class="string">&#x27;.title&#x27;</span>);</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> i =<span class="number">0</span>;i&lt;h2Title.length;i++)&#123;</span><br><span class="line">    h2Title[i].style.color = <span class="string">&quot;#f00&quot;</span>;</span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>作者： </strong>Penghua Chen
+  </li>
+  <li class="post-copyright-link">
+      <strong>文章連結：</strong>
+      <a href="https://penghuachen.github.io/2019/07/17/%E9%80%A3%E7%BA%8C%E8%A8%98%E9%8C%84%E6%8C%91%E6%88%B0Day51-%E4%BD%BF%E7%94%A8Javascript%E6%93%8D%E4%BD%9CDOM-Document-Object-Model-part1/" title="連續記錄挑戰Day51-使用Javascript操作DOM(Document Object Model) part1">https://penghuachen.github.io/2019/07/17/連續記錄挑戰Day51-使用Javascript操作DOM-Document-Object-Model-part1/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版權聲明： </strong>本網誌所有文章除特別聲明外，均採用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 許可協議。轉載請註明出處！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Javascript/" rel="tag"><i class="fa fa-tag"></i> Javascript</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/07/16/%E9%80%A3%E7%BA%8C%E8%A8%98%E9%8C%84%E6%8C%91%E6%88%B0Day50-%E9%97%9C%E6%96%BC%E7%80%8F%E8%A6%BD%E5%99%A8%E7%9A%84window%E7%89%A9%E4%BB%B6/" rel="prev" title="連續記錄挑戰Day50-關於瀏覽器的window物件">
+                  <i class="fa fa-chevron-left"></i> 連續記錄挑戰Day50-關於瀏覽器的window物件
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/07/18/%E9%80%A3%E7%BA%8C%E8%A8%98%E9%8C%84%E6%8C%91%E6%88%B0Day52-%E7%AE%AD%E9%A0%AD%E5%87%BD%E5%BC%8F-arrow-function/" rel="next" title="連續記錄挑戰Day52-箭頭函式(arrow function)">
+                  連續記錄挑戰Day52-箭頭函式(arrow function) <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  <script src="/js/comments.js"></script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Penghua Chen</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="總字數">319k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="所需總閱讀時間">4:50</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 強力驅動
+  </div>
+
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/disqusjs@1.3.0/dist/disqusjs.css" integrity="sha256-GxdCIOyfxQ1OBfS99qAIJDoGK1ADuBsxhMTqXG82fAY=" crossorigin="anonymous">
+
+<script class="next-config" data-name="disqusjs" type="application/json">{&quot;enable&quot;:true,&quot;api&quot;:null,&quot;apikey&quot;:&quot;MoWEbRpoRkCqgB4ESD2wgfoVqk64XdtRayWXxnN5CqWGHfwnn91BFnemQoyOflRx&quot;,&quot;shortname&quot;:&quot;penghuachen&quot;,&quot;js&quot;:{&quot;url&quot;:&quot;https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;npm&#x2F;disqusjs@1.3.0&#x2F;dist&#x2F;disqus.js&quot;,&quot;integrity&quot;:&quot;sha256-LVaMHPQ2zLqOc5rXSAfr4d1PIkEGNLyyUTDNPZmTtUw&#x3D;&quot;}}</script>
+<script src="/js/third-party/comments/disqusjs.js"></script>
+
+</body>
+</html>
